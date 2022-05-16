@@ -34,12 +34,13 @@ docker build -t disco-diffusion:5.1 .
 This example runs Disco Diffusion in a Docker container.  It maps `images_out` and `init_images` to the container's working directory to access by the host OS.
 ```sh
 docker run --rm -it \
-    -v $(echo ~)/disco-diffusion/images_out:/workspace/code/images_out \
-    -v $(echo ~)/disco-diffusion/init_images:/workspace/code/init_images \
+    -v $(echo ~)/disco-diffusion-adisi/images_out:/workspace/code/images_out \
+    -v $(echo ~)/disco-diffusion-adisi/init_images:/workspace/code/init_images \
+    -v $(echo ~)/disco-diffusion-adisi/disco.py:/workspace/code/disco.py \
     --gpus=all \
+    --user root \
     --name="disco-diffusion" --ipc=host \
-    --user $(id -u):$(id -g) \
-disco-diffusion:5.1 python disco-diffusion/disco.py
+disco-diffusion:5.1 python disco.py
 ```
 
 ## Passing Parameters

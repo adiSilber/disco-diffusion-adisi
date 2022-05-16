@@ -11,10 +11,6 @@ ENV PYTHONUNBUFFERED 1
 RUN apt update
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install -y tzdata imagemagick
 
-# Create a disco user
-RUN useradd -ms /bin/bash disco
-USER disco
-
 # Set up code directory
 RUN mkdir code
 WORKDIR /workspace/code
@@ -24,7 +20,7 @@ COPY --from=modelprep /scratch/models /workspace/code/models
 COPY --from=modelprep /scratch/pretrained /workspace/code/pretrained
 
 # Clone Git repositories
-RUN git clone https://github.com/alembics/disco-diffusion.git && \
+RUN 
     git clone https://github.com/openai/CLIP && \
     git clone https://github.com/assafshocher/ResizeRight.git && \
     git clone https://github.com/MSFTserver/pytorch3d-lite.git && \
@@ -35,6 +31,5 @@ RUN git clone https://github.com/alembics/disco-diffusion.git && \
 # Install Python packages
 RUN pip install imageio imageio-ffmpeg==0.4.4 pyspng==0.1.0 lpips datetime timm ipywidgets omegaconf>=2.0.0 pytorch-lightning>=1.0.8 torch-fidelity einops wandb pandas ftfy
 
-# Precache other big files
-COPY --chown=disco --from=modelprep /scratch/clip /home/disco/.cache/clip
-COPY --chown=disco --from=modelprep /scratch/model-lpips/vgg16-397923af.pth /home/disco/.cache/torch/hub/checkpoints/vgg16-397923af.pth
+
+# Precache other big file

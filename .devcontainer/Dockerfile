@@ -21,3 +21,30 @@ FROM nvcr.io/nvidia/pytorch:21.08-py3 AS prep
     RUN wget --no-directories --progress=bar:force:noscroll -P /scratch/clip https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt
     RUN wget --no-directories --progress=bar:force:noscroll -P /scratch/clip https://openaipublic.azureedge.net/clip/models/5806e77cd80f8b59890b7e101eabd078d9fb84e6937f9e85e4ecb61988df416f/ViT-B-16.pt
     RUN wget --no-directories --progress=bar:force:noscroll -P /scratch/clip https://openaipublic.azureedge.net/clip/models/b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836/ViT-L-14.pt
+
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Install a few dependencies
+RUN apt update
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install -y tzdata imagemagick
+
+# Set up code directory
+RUN mkdir code
+WORKDIR /workspace/code
+
+# Copy over models used
+COPY /scratch/models /workspace/code/models
+COPY /scratch/pretrained /workspace/code/pretrained
+
+# Clone Git repositories
+RUN git clone https://github.com/openai/CLIP && \
+    git clone https://github.com/assafshocher/ResizeRight.git && \
+    git clone https://github.com/MSFTserver/pytorch3d-lite.git && \
+    git clone https://github.com/isl-org/MiDaS.git && \
+    git clone https://github.com/crowsonkb/guided-diffusion.git && \
+    git clone https://github.com/shariqfarooq123/AdaBins.git
+
+# Install Python packages
+RUN pip install imageio imageio-ffmpeg==0.4.4 pyspng==0.1.0 lpips datetime timm ipywidgets omegaconf>=2.0.0 pytorch-lightning>=1.0.8 torch-fidelity einops wandb pandas ftfy
