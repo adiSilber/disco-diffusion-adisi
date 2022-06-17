@@ -1771,15 +1771,6 @@ class SecondaryDiffusionImageNet2(nn.Module):
         eps = input * sigmas + v * alphas
         return DiffusionOutput(v, pred, eps)
 
-<<<<<<< HEAD
-def load_settings(settings_file):
-  if not os.path.isfile(settings_file):
-    return None
-  with open(settings_file) as f:
-    return json.load(f)
-
-=======
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 # %%
 # !! {"metadata":{
 # !!   "id": "DiffClipSetTop"
@@ -1813,22 +1804,6 @@ RN50x64 = False #@param{type:"boolean"}
 
 #@markdown If you're having issues with model downloads, check this to compare SHA's:
 check_model_SHA = False #@param{type:"boolean"}
-
-my_settings = load_settings('/content/drive/MyDrive/AI/my_settings.json')
-if my_settings:
-  diffusion_model = my_settings.get('diffusion_model', diffusion_model)
-  use_secondary_model = my_settings.get('use_secondary_model', use_secondary_model)
-  diffusion_sampling_mode = my_settings.get('diffusion_sampling_mode', diffusion_sampling_mode)
-  use_checkpoint = my_settings.get('use_checkpoint', use_checkpoint)
-  ViTB32 = my_settings.get('ViTB32', ViTB32)
-  ViTB16 = my_settings.get('ViTB16', ViTB16)
-  ViTL14 = my_settings.get('ViTL14', ViTL14)
-  RN101 = my_settings.get('RN101', RN101)
-  RN50 = my_settings.get('RN50', RN50)
-  RN50x4 = my_settings.get('RN50x4', RN50x4)
-  RN50x16 = my_settings.get('RN50x16', RN50x16)
-  RN50x64 = my_settings.get('RN50x64', RN50x64)
-  check_model_SHA = my_settings.get('check_model_SHA', check_model_SHA)
 
 def download_models(diffusion_model,use_secondary_model,fallback=False):
     model_256_downloaded = False
@@ -2043,13 +2018,8 @@ if diffusion_model == 'custom':
 # !! }}
 #@markdown ####**Basic Settings:**
 batch_name = 'TimeToDisco' #@param{type: 'string'}
-<<<<<<< HEAD
-steps = 150 #@param [25,50,100,150,250,500,1000]{type: 'raw', allow-input: true}
-width_height = [512, 512]#@param{type: 'raw'}
-=======
 steps = 250 #@param [25,50,100,150,250,500,1000]{type: 'raw', allow-input: true}
 width_height = [1280, 768] #@param{type: 'raw'}
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 clip_guidance_scale = 5000 #@param{type: 'number'}
 tv_scale = 0#@param{type: 'number'}
 range_scale = 150#@param{type: 'number'}
@@ -2068,34 +2038,11 @@ video_init_skip_steps = 50 #@param{type: 'integer'}
 
 #@markdown ---
 
-<<<<<<< HEAD
-#@markdown ####**Init Settings:**
-print("!!!!!!!!!!!!!!!!!!!!!!!!")
-print(os.path.isdir("/workspace/code/images_out/TimeToDisco/TimeToDisco(1)_0199.png"))
-print("!!!!!!!!!!!!!!!!!!!!!!!!")
-# init_image = "/workspace/code/images_out/TimeToDisco/TimeToDisco(1)_0199.png" #@param{type: 'string'}
-init_image = None
-=======
 #@markdown ####**Init Image Settings:**
 init_image = None #@param{type: 'string'}
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 init_scale = 1000 #@param{type: 'integer'}
 skip_steps = 10 #@param{type: 'integer'}
 #@markdown *Make sure you set skip_steps to ~50% of your steps if you want to use an init image.*
-
-if my_settings:
-  batch_name = my_settings.get('batch_name', batch_name)
-  steps = my_settings.get('steps', steps)
-  width_height = my_settings.get('width_height', width_height)
-  clip_guidance_scale = my_settings.get('clip_guidance_scale', clip_guidance_scale)
-  tv_scale =  my_settings.get('tv_scale', tv_scale)
-  range_scale =   my_settings.get('range_scale', range_scale)
-  sat_scale =   my_settings.get('sat_scale', sat_scale)
-  cutn_batches = my_settings.get('cutn_batches', cutn_batches)
-  skip_augs = my_settings.get('skip_augs', skip_augs)
-  init_image = my_settings.get('init_image', init_image)
-  init_scale = my_settings.get('init_scale', init_scale)
-  skip_steps = my_settings.get('skip_steps', skip_steps)
 
 #Get corrected sizes
 side_x = (width_height[0]//64)*64;
@@ -2121,7 +2068,7 @@ createPath(batchFolder)
 # !!   "id": "AnimSettings"
 # !! }}
 #@markdown ####**Animation Mode:**
-animation_mode = '2D' #@param ['None', '2D', '3D', 'Video Input'] {type:'string'}
+animation_mode = 'None' #@param ['None', '2D', '3D', 'Video Input'] {type:'string'}
 #@markdown *For animation, you probably want to turn `cutn_batches` to 1 to make it quicker.*
 
 
@@ -2169,7 +2116,7 @@ if animation_mode == "Video Input":
 #@markdown All rotations are provided in degrees.
 
 key_frames = True #@param {type:"boolean"}
-max_frames = 850#@param {type:"number"}
+max_frames = 10000#@param {type:"number"}
 
 if animation_mode == "Video Input":
     max_frames = len(glob(f'{videoFramesFolder}/*.jpg'))
@@ -2185,7 +2132,7 @@ rotation_3d_y = "0: (0)"#@param {type:"string"}
 rotation_3d_z = "0: (0)"#@param {type:"string"}
 midas_depth_model = "dpt_large"#@param {type:"string"}
 midas_weight = 0.3#@param {type:"number"}
-near_plane = 50#@param {type:"number"}
+near_plane = 200#@param {type:"number"}
 far_plane = 10000#@param {type:"number"}
 fov = 40#@param {type:"number"}
 padding_mode = 'border'#@param {type:"string"}
@@ -2240,38 +2187,6 @@ vr_mode = False #@param {type:"boolean"}
 vr_eye_angle = 0.5 #@param{type:"number"}
 #@markdown interpupillary distance (between the eyes)
 vr_ipd = 5.0 #@param{type:"number"}
-
-if my_settings:
-  animation_mode = my_settings.get('animation_mode', animation_mode)
-  video_init_path = my_settings.get('video_init_path', video_init_path)
-  video_init_path = my_settings.get('video_init_path', video_init_path)
-  extract_nth_frame = my_settings.get('extract_nth_frame', extract_nth_frame)
-  video_init_seed_continuity = my_settings.get('video_init_seed_continuity', video_init_seed_continuity)
-  key_frames = my_settings.get('key_frames', key_frames)
-  max_frames = my_settings.get('max_frames', max_frames)
-  interp_spline = my_settings.get('interp_spline', interp_spline)
-  angle = my_settings.get('angle', angle)
-  zoom = my_settings.get('zoom', zoom)
-  translation_x = my_settings.get('translation_x', translation_x)
-  translation_y = my_settings.get('translation_y', translation_y)
-  translation_z = my_settings.get('translation_z', translation_z)
-  rotation_3d_x = my_settings.get('rotation_3d_x', rotation_3d_x)
-  rotation_3d_y = my_settings.get('rotation_3d_y', rotation_3d_y)
-  rotation_3d_z = my_settings.get('rotation_3d_z', rotation_3d_z)
-  midas_depth_model = my_settings.get('midas_depth_model', midas_depth_model)
-  midas_weight = my_settings.get('midas_weight', midas_weight)
-  near_plane = my_settings.get('near_plane', near_plane)
-  far_plane = my_settings.get('far_plane', far_plane)
-  fov = my_settings.get('fov', fov)
-  padding_mode = my_settings.get('padding_mode', padding_mode)
-  sampling_mode = my_settings.get('sampling_mode', sampling_mode)
-  turbo_mode = my_settings.get('turbo_mode', turbo_mode)
-  turbo_steps = my_settings.get('turbo_steps', turbo_steps)
-  frames_scale = my_settings.get('frames_scale', frames_scale)
-  frames_skip_steps = my_settings.get('frames_skip_steps', frames_skip_steps)
-  vr_mode = my_settings.get('vr_mode', vr_mode)
-  vr_eye_angle = my_settings.get('vr_eye_angle', vr_eye_angle)
-  vr_ipd = my_settings.get('vr_ipd', vr_ipd)
 
 #insist VR be used only w 3d anim.
 if vr_mode and animation_mode != '3D':
@@ -2826,20 +2741,6 @@ use_horizontal_symmetry = False #@param {type:"boolean"}
 transformation_percent = [0.09] #@param
 
 
-if my_settings:
-  intermediate_saves = my_settings.get('intermediate_saves', intermediate_saves)
-  intermediates_in_subfolder = my_settings.get('intermediates_in_subfolder', intermediates_in_subfolder)
-  perlin_init = my_settings.get('perlin_init', perlin_init)
-  perlin_mode = my_settings.get('perlin_mode', perlin_mode)
-  set_seed = my_settings.get('set_seed', set_seed)
-  eta = my_settings.get('eta', eta)
-  clamp_grad = my_settings.get('clamp_grad', clamp_grad)
-  clamp_max = my_settings.get('clamp_max', clamp_max)
-  cut_overview = my_settings.get('cut_overview', cut_overview)  
-  cut_innercut = my_settings.get('cut_innercut', cut_innercut)
-  cut_ic_pow = my_settings.get('cut_ic_pow', cut_ic_pow)
-  cut_icgray_p = my_settings.get('cut_icgray_p', cut_icgray_p)
-
 # %%
 # !! {"metadata":{
 # !!   "id": "PromptsTop"
@@ -2854,37 +2755,17 @@ if my_settings:
 # !!   "id": "Prompts"
 # !! }}
 text_prompts = {
-  
-0: ["A beautiful painting of a view over the island of Tenerife by greg rutkowski and thomas kinkade, trending on artstation.", "bright colors scheme"],
-100: ["A beautiful painting of the blue ocean with the horizon visible in the distance, by greg rutkowski and thomas kinkade, trending on artstation.", "bright colors scheme"],
-150: ["A beautiful painting of a beach with black sand by greg rutkowski and thomas kinkade, trending on artstation.", "bright colors scheme"],
-200: ["A beautiful painting of small houses in a valley full of palms by greg rutkowski and thomas kinkade, trending on artstation.", "pastel color scheme"],
-250: ["A beautiful painting of a red car drives up a road on the side of a volcano by greg rutkowski and thomas kinkade, trending on artstation.", "bright colors scheme"],
-300: ["A beautiful painting of a red car drives up a road on the side of a volcano by greg rutkowski and thomas kinkade, trending on artstation.", "bright colors scheme"],
-450: ["A beautiful painting of big white birds fly in the clear sky by greg rutkowski and thomas kinkade, trending on artstation"],
-500: ["A beautiful painting of a red car is driving on a very steep road in the middle of a slightly neglected town by greg rutkowski and thomas kinkade, trending on artstation", "bright colors scheme"],
-550: ["A beautiful painting of an interior of a car where the driver puts a hand on the gear lever by greg rutkowski and thomas kinkade, trending on artstation."],
-600: ["Psychedelic painting of A man and a woman mix with each other in the middle of the space, artstation", "purple and blue color scheme"],
-650: ["A beautiful painting of a collision of two galaxies in the outer space, by greg rutkowski and thomas kinkade, trending on artstation"],
-700: ["A beautiful painting of a supernova in the outer space, by greg rutkowski and thomas kinkade, trending on artstation", "red white and silver colors scheme"],
-750: ["A beautiful painting of a girl with light brown wavy hair overlooks the island of Tenerife by greg rutkowski and thomas kinkade, trending on artstation.", "bright colors scheme"]
-    # 0: ["A beautiful painting of a view over the island of Tenerife by greg rutkowski and thomas kinkade, trending on artstation."],
-    # 100: ["A beautiful painting of the blue ocean with the horizon visible in the distance, by greg rutkowski and thomas kinkade, trending on artstation."]
-    
-  #  50: ["A woman's face with filled lips, raised eyebrows, and a tiny nose, artstation."],
-  #  100: ["A plastic surgeon smiles broadly, art station"],
-  #  150: ["A plastic surgeon smiles broadly while holding a seargeon's scalpel, art station"],
+    0: ["A beautiful painting of a singular lighthouse, shining its light across a tumultuous sea of blood by greg rutkowski and thomas kinkade, Trending on artstation.", "yellow color scheme"],
+    100: ["This set of prompts start at frame 100","This prompt has weight five:5"],
 }
 
 image_prompts = {
     # 0:['ImagePromptsWorkButArentVeryGood.png:2',],
 }
 
-  text_prompts = my_settings.get('text_prompts', text_prompts)
-  image_prompts = my_settings.get('image_prompts', image_prompts)
-
-
 # %%
+# !! {"metadata":{
+# !!   "id": "DiffuseTop"
 # !! }}
 """
 # 4. Diffuse!
@@ -2896,16 +2777,11 @@ image_prompts = {
 # !! }}
 #@title Do the Run!
 #@markdown `n_batches` ignored with animation modes.
-<<<<<<< HEAD
-display_rate =  10 #@param{type: 'number'}
-n_batches =  1 #@param{type: 'number'}
-=======
 display_rate = 20 #@param{type: 'number'}
 n_batches = 50 #@param{type: 'number'}
 
 if animation_mode == 'Video Input':
     steps = video_init_steps
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 
 #Update Model Settings
 timestep_respacing = f'ddim{steps}'
@@ -2930,26 +2806,9 @@ resume_run = False #@param{type: 'boolean'}
 run_to_resume = 'latest' #@param{type: 'string'}
 resume_from_frame = 'latest' #@param{type: 'string'}
 retain_overwritten_frames = False #@param{type: 'boolean'}
-<<<<<<< HEAD
-
-if my_settings:
-  
-  display_rate =  my_settings.get('display_rate', display_rate)
-  n_batches = my_settings.get('n_batches', n_batches)
-  resume_run = my_settings.get('resume_run', resume_run)
-  run_to_resume = my_settings.get('run_to_resume', run_to_resume)
-  resume_from_frame = my_settings.get('resume_from_frame', resume_from_frame)
-  retain_overwritten_frames = my_settings.get('retain_overwritten_frames', retain_overwritten_frames)
-
-
-if retain_overwritten_frames is True:
-  retainFolder = f'{batchFolder}/retained'
-  createPath(retainFolder)
-=======
 if retain_overwritten_frames:
     retainFolder = f'{batchFolder}/retained'
     createPath(retainFolder)
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 
 
 skip_step_ratio = int(frames_skip_steps.rstrip("%")) / 100
@@ -3142,15 +3001,9 @@ finally:
     torch.cuda.empty_cache()
 
 # %%
-<<<<<<< HEAD
-# !! {"metadata": {
-# # !!    "id": "CreateVidTop"
-# # !! }}
-=======
 # !! {"metadata":{
 # !!   "id": "CreateVidTop"
 # !! }}
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 """
 # 5. Create the video
 """
@@ -3163,11 +3016,6 @@ finally:
 import PIL
 # @title ### **Create video**
 #@markdown Video file will save in the same folder as your images.
-<<<<<<< HEAD
-
-skip_video_for_run_all = False #@param {type: 'boolean'}
-
-=======
 from tqdm.notebook import trange
 skip_video_for_run_all = False #@param {type: 'boolean'}
 
@@ -3183,101 +3031,10 @@ if (video_init_blend_mode == "optical flow") and (animation_mode != 'Video Input
     print('Please enable Video Input mode and generate optical flow maps to use optical flow video_init_blend_mode')
 blend =  0.5#@param {type: 'number'}
 video_init_check_consistency = False #@param {type: 'boolean'}
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
 if skip_video_for_run_all == True:
     print('Skipping video creation, uncheck skip_video_for_run_all if you want to run it')
 
 else:
-<<<<<<< HEAD
-  # import subprocess in case this cell is run without the above cells
-  import subprocess
-  from base64 import b64encode
-
-  latest_run = batchNum
-
-  folder = batch_name #@param
-  run = latest_run #@param #adisi
-  final_frame = 'final_frame'
-
-
-  init_frame = 1#@param {type:"number"} This is the frame where the video will start
-  last_frame = final_frame#@param {type:"number"} You can change i to the number of the last frame you want to generate. It will raise an error if that number of frames does not exist.
-  fps = 12#@param {type:"number"}
-  # view_video_in_cell = True #@param {type: 'boolean'}
-
-  # if my_settings:
-  #   skip_video_for_run_all = my_settings.get('skip_video_for_run_all', skip_video_for_run_all)
-  #   folder = my_settings.get('folder', folder)
-  #   run = my_settings.get('run', run)
-  #   final_frame = my_settings.get('final_frame', final_frame)
-  #   init_frame = my_settings.get('init_frame', init_frame)
-  #   last_frame = my_settings.get('last_frame', last_frame)
-  #   fps = my_settings.get('fps', fps)    #adisi
-
-
-  latest_run = 1
-  folder = "TimeToDisco" #@param
-  run = latest_run #@param
-  final_frame = 'final_frame'
-  init_frame = 1#@param {type:"number"} This is the frame where the video will start
-  last_frame = final_frame#@param {type:"number"} You can change i to the number of the last frame you want to generate. It will raise an error if that number of frames does not exist.
-  fps = 12#@param {type:"number"}
-  batchFolder = "/home/paperspace/disco-diffusion-adisi/images_out/TimeToDisco"
-  outDirPath = "images_out"
-
-  frames = []
-  # tqdm.write('Generating video...')
-
-  if last_frame == 'final_frame':
-    last_frame = len(glob(batchFolder+f"/{folder}({run})_*.png"))
-    print(f'Total frames: {last_frame}')
-
-  image_path = f"{outDirPath}/{folder}/{folder}({run})_0000.png"
-  filepath = f"{outDirPath}/{folder}/{folder}({run}).mp4"
-
-
-  cmd = [
-      'ffmpeg',
-      '-y',
-      '-vcodec',
-      'png',
-      '-r',
-      str(fps),
-      '-start_number',
-      str(init_frame),
-      '-i',
-      image_path,
-      '-frames:v',
-      str(last_frame+1),
-      '-c:v',
-      'libx264',
-      '-vf',
-      f'fps={fps}',
-      '-pix_fmt',
-      'yuv420p',
-      '-crf',
-      '17',
-      '-preset',
-      'veryslow',
-      filepath
-  ]
-
-  process = subprocess.Popen(cmd, cwd=f'{batchFolder}', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-  stdout, stderr = process.communicate()
-  if process.returncode != 0:
-      print(stderr)
-      raise RuntimeError(stderr)
-  else:
-      print("The video is ready and saved to the images folder")
-
-  # if view_video_in_cell:
-  #     mp4 = open(filepath,'rb').read()
-  #     data_url = "data:video/mp4;base64," + b64encode(mp4).decode()
-  #     display.HTML(f'<video width=400 controls><source src="{data_url}" type="video/mp4"></video>')
-  
-
-# %%
-=======
     # import subprocess in case this cell is run without the above cells
     import subprocess
     from base64 import b64encode
@@ -3430,4 +3187,3 @@ else:
 # !!     "version": "3.6.1"
 # !!   }
 # !! }}
->>>>>>> 2e3cd0f32a92841e509810569b783d97eaa843af
