@@ -17,8 +17,7 @@
 	"extensions": [
 		"ms-python.python"
 	],
-    "mounts": ["source=${localWorkspaceFolder}/images_out,target=/workspace/code/images_out,type=bind,consistency=cached",
-                "source=${localWorkspaceFolder}/init_images,target=/workspace/code/init_images,type=bind,consistency=cached"]
+	"runArgs": ["--gpus=all", "--privileged"]
 	// Use 'forwardPorts' to make a listof ports inside the container available locally.
 	// "forwardPorts": [],
 
